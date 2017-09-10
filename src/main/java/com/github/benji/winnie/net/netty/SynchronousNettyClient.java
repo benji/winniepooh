@@ -5,6 +5,11 @@ import java.util.concurrent.TimeUnit;
 
 public class SynchronousNettyClient extends NettyClient {
 
+	final static int MAX_REQUEST_TIME_SECONDS = 5;
+
+	String serverResponse = null;
+	CountDownLatch requestLatch = null;
+
 	public SynchronousNettyClient(String host, int port) {
 		super(host, port);
 	}

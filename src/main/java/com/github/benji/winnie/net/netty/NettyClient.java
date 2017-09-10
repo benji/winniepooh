@@ -1,8 +1,5 @@
 package com.github.benji.winnie.net.netty;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
@@ -57,10 +54,6 @@ public class NettyClient {
 		this.channel = b.connect(host, port).sync().channel();
 	}
 
-	CountDownLatch requestLatch = null;
-	final static int MAX_REQUEST_TIME_SECONDS = 5;
-	String serverResponse;
-
 	public void send(String request) throws Exception {
 		System.out.println("Client sending request " + request);
 		channel.writeAndFlush(Unpooled.copiedBuffer(request, CharsetUtil.UTF_8)).sync();
@@ -100,6 +93,5 @@ public class NettyClient {
 			}
 			ch.pipeline().addLast(new ClientHandler());
 		}
-
 	}
 }
