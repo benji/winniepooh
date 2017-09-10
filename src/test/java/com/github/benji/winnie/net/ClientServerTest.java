@@ -11,14 +11,7 @@ import junit.framework.TestCase;
 
 public class ClientServerTest extends TestCase {
 
-	public void testSeveralTimes() throws Exception {
-		// while(true){
-		clientServerSimple();
-		System.out.println("======================================");
-		// }
-	}
-
-	public void clientServerSimple() throws Exception {
+	public void testSynchronousClientServerCommunication() throws Exception {
 		boolean useSSL = true;
 		TestCertificate cert = null;
 
@@ -49,13 +42,15 @@ public class ClientServerTest extends TestCase {
 
 		client.connect();
 
-		for (int i = 0; i < 10; i++) {
-			String msg = "ping #" + i;
-			assertEquals(msg, client.sendSynchronously(msg));
+		try {
+			for (int i = 0; i < 10; i++) {
+				String msg = "ping #" + i;
+				assertEquals(msg, client.sendSynchronously(msg));
+			}
+		} finally {
+			client.closeQuietly();
+			echoServer.closeQuietly();
 		}
-
-		client.closeQuietly();
-		echoServer.closeQuietly();
 	}
 
 }
